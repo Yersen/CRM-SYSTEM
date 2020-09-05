@@ -30,7 +30,7 @@ namespace CrmBl_.Models
         }
         public void Enqueue(Cart cart)//add people in Queue
         {
-            if (Queue.Count <= MaxQueueLenght)
+            if (Queue.Count < MaxQueueLenght)
             {
                 Queue.Enqueue(cart);
             }

@@ -23,21 +23,21 @@ namespace CrmUI_
             QueueLenght = new ProgressBar();
             LeaveCustomersCount = new Label();
             CashDeskName.AutoSize = true;
-            CashDeskName.Location = new System.Drawing.Point(x, y+20);
+            CashDeskName.Location = new System.Drawing.Point(x, y+ 10);
             CashDeskName.Name = "label" + number;
             CashDeskName.Size = new System.Drawing.Size(46, 17);
             CashDeskName.TabIndex = number;
             CashDeskName.Text = cashDesk.ToString();
 
  
-            Price.Location = new System.Drawing.Point(x + 100, y+20);
+            Price.Location = new System.Drawing.Point(x + 60, y + 10);
             Price.Name = "numericUpDown " + number;
             Price.Size = new System.Drawing.Size(120, 22);
             Price.TabIndex = number;
             Price.Maximum = 1000000000000;
 
 
-            QueueLenght.Location = new System.Drawing.Point(x+250, y);
+            QueueLenght.Location = new System.Drawing.Point(x+190, y + 10);
             QueueLenght.Maximum = cashDesk.MaxQueueLenght;
             QueueLenght.Name = "progressBar " + number;
             QueueLenght.Size = new System.Drawing.Size(100, 23);
@@ -45,11 +45,11 @@ namespace CrmUI_
             QueueLenght.Value = 0;
 
             LeaveCustomersCount.AutoSize = true;
-            LeaveCustomersCount.Location = new System.Drawing.Point(x+400, y + 20);
+            LeaveCustomersCount.Location = new System.Drawing.Point(x+300, y + 10);
             LeaveCustomersCount.Name = "label2" + number;
             LeaveCustomersCount.Size = new System.Drawing.Size(46, 17);
             LeaveCustomersCount.TabIndex = number;
-            LeaveCustomersCount.Text ="";
+            LeaveCustomersCount.Text = "";
 
             cashDesk.checkClosed += CashDesk_checkClosed;
         }
@@ -59,7 +59,7 @@ namespace CrmUI_
             Price.Invoke((Action)delegate 
             {
                 Price.Value += e.Price;
-                QueueLenght.Value += cashDesk.Count;
+                QueueLenght.Value = cashDesk.Count;
                 LeaveCustomersCount.Text = cashDesk.ExitCustomer.ToString();
             }
             );
