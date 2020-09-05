@@ -176,6 +176,7 @@
             this.label1.Size = new System.Drawing.Size(50, 17);
             this.label1.TabIndex = 3;
             this.label1.Text = "Итого:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button1
             // 

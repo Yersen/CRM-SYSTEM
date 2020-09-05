@@ -122,6 +122,7 @@ namespace CrmUI_
             listBox2.Items.Clear();
             listBox2.Items.AddRange(cart.GetAll().ToArray());
             label1.Text = "Итого:" + cart.Price;
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -158,11 +159,17 @@ namespace CrmUI_
                 cart = new Cart(customer);
 
                 MessageBox.Show($"Поздравляю с оформлением покупки! Сумма покупки-{price}", "Покупка выполнена",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                label1.Text = "Итого:";
             }
             else
             {
                 MessageBox.Show("Авторизуйтесь в приложении", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
