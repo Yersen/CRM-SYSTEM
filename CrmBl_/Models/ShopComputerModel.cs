@@ -32,7 +32,7 @@ namespace CrmBl_.Models
             }
             for (int i = 0; i < 3; i++)
             {
-                CashDesks.Add(new CashDesk(CashDesks.Count, Sellers.Dequeue()));
+                CashDesks.Add(new CashDesk(CashDesks.Count, Sellers.Dequeue(),null));
             }
         }
         public void Start()

@@ -8,7 +8,7 @@ namespace CrmBl_.Models
 {
     public class CashDesk
     {
-        Context db = new Context();
+        Context db;
 
         public int Number { get; set; }
         public Seller Seller { get; set; }
@@ -19,14 +19,14 @@ namespace CrmBl_.Models
         public bool IsModel { get; set; }//будет ли выполняться контекст в БД
         public int Count => Queue.Count;
         public event EventHandler<Check> checkClosed;
-        public CashDesk(int number, Seller seller)
-
+        public CashDesk(int number, Seller seller,Context db)
         {
             Number = number;
             Seller = seller;
             Queue = new Queue<Cart>();
             IsModel = true;
             MaxQueueLenght = 10;
+            this.db = db ?? new Context();
         }
         public void Enqueue(Cart cart)//add people in Queue
         {

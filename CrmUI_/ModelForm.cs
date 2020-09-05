@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -40,6 +41,7 @@ namespace CrmUI_
         private void ModelForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             model.Stop();
+            
         }
 
         private void progressBar1_Click(object sender, EventArgs e)

@@ -14,10 +14,19 @@ namespace CrmUI_
     public partial class Main : Form
     {
         Context db;
+        Cart cart;
+        Customer customer;
+        CashDesk cashDesk;
+
         public Main()
         {
             InitializeComponent();
             db = new Context();
+            cart = new Cart(customer);
+            cashDesk = new CashDesk(1, db.Sellers.FirstOrDefault(),db)
+            {
+                IsModel = false
+            };
         }
 
         private void сущностиToolStripMenuItem_Click(object sender, EventArgs e)
@@ -83,13 +92,77 @@ namespace CrmUI_
 
         private void Main_Load(object sender, EventArgs e)
         {
-
+            Task.Run(() =>
+            {
+                listBox1.Invoke((Action)delegate
+                {
+                    listBox1.Items.AddRange(db.Products.ToArray());
+                    UpdateLists();
+                });
+            });
         }
 
         private void modelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new ModelForm();
             form.Show();
+        }
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if(listBox1.SelectedItem is Product product)
+            {
+                cart.Add(product);
+                listBox2.Items.Add(product);
+                UpdateLists();
+            }
+        }
+        private void UpdateLists()
+        {
+            listBox2.Items.Clear();
+            listBox2.Items.AddRange(cart.GetAll().ToArray());
+            label1.Text = "Итого:" + cart.Price;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+            var form =new Login();
+            form.ShowDialog();
+            if(form.DialogResult == DialogResult.OK)
+            {
+                var tempCustomer = db.Customers.FirstOrDefault(c => c.Name.Equals(form.Customer.Name));
+                if(tempCustomer != null)
+                {
+                    customer = tempCustomer;
+                }
+                else
+                {
+                    db.Customers.Add(form.Customer);
+                    db.SaveChanges();
+                    customer = form.Customer;
+                }
+                cart.Customer = customer;
+            }
+            linkLabel1.Text = $"Здравствуй , {customer.Name}";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Сделать проверку на забивку корзины Main.cs сделать удаление в чеках
+            if (customer != null && cart.Price != null)
+            {
+                cashDesk.Enqueue(cart);
+                var price = cashDesk.Dequeue();
+                listBox2.Items.Clear();
+                cart = new Cart(customer);
+
+                MessageBox.Show($"Поздравляю с оформлением покупки! Сумма покупки-{price}", "Покупка выполнена",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Авторизуйтесь в приложении", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

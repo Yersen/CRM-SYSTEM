@@ -34,7 +34,7 @@ namespace CrmUI_
             Price.Name = "numericUpDown " + number;
             Price.Size = new System.Drawing.Size(120, 22);
             Price.TabIndex = number;
-            Price.Maximum = 1000000000000;
+            Price.Maximum = 10000000000000;
 
 
             QueueLenght.Location = new System.Drawing.Point(x+190, y + 10);
@@ -56,13 +56,15 @@ namespace CrmUI_
 
         private void CashDesk_checkClosed(object sender, Check e)
         {
-            Price.Invoke((Action)delegate 
+            if (!Price.IsDisposed)
             {
-                Price.Value += e.Price;
-                QueueLenght.Value = cashDesk.Count;
-                LeaveCustomersCount.Text = cashDesk.ExitCustomer.ToString();
+                Price.Invoke((Action)delegate
+                {
+                    Price.Value += e.Price;
+                    QueueLenght.Value = cashDesk.Count;
+                    LeaveCustomersCount.Text = cashDesk.ExitCustomer.ToString();
+                });
             }
-            );
         }
     }
 }
